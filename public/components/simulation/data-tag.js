@@ -1,7 +1,6 @@
 class dataTag extends HTMLElement {
     constructor(){
         super()
-        console.log("data tag created")
         const label = this.getAttribute("label") || "";
         this.innerHTML = `
                         <div class="bg-gray-800 p-2 rounded">
