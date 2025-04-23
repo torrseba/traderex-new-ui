@@ -6,7 +6,6 @@
   <title>TradeEX Simulator</title>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
   <script defer src="/__/firebase/11.6.0/firebase-app-compat.js"></script>
   <!-- include only the Firebase features as you need -->
   <script defer src="/__/firebase/11.6.0/firebase-auth-compat.js"></script>
@@ -23,11 +22,12 @@
     to avoid connecting the SDK to running emulators.
   -->
   <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  
+  
+  <script defer type="module" src="/components/simulation/data-tag.js"></script>
+  <script defer type="module" src="/components/simulation/orderbook-row.js"></script>
 
-  <script defer src="/app.js"></script>
-
-
-  <script defer src="/components/simulation/data-tag.js"></script>
+  <script defer type="module" src="/app.js"></script>
 
 </head>
 <body class="bg-black text-white font-sans">
@@ -55,23 +55,24 @@
       <button class="bg-blue-600 px-4 py-2 rounded">Show Participants</button>
     </div>
     <!-- Info Boxes -->
-    <div class="grid grid-cols-8 gap-2 text-center text-sm">
-      <data-tag label="Shares">0</data-tag>
-      <data-tag label="Mission">Buy 500</data-tag>
-      <data-tag label="Cash">0</data-tag>
-      <data-tag label="P/L">-</data-tag>
-      <data-tag label="Average Buy">-</data-tag>
-      <data-tag label="Average Sell">-</data-tag>
-      <data-tag label="Market VWAP">-</data-tag>
-      <data-tag label="Last Price">-</data-tag>
-      <data-tag label="Market Vol.">-</data-tag>
+    <div class="grid grid-cols-10 gap-2 text-center text-sm">
+      <data-tag id="Shares" label="Shares">-</data-tag>
+      <data-tag id="Mission" label="Mission">-</data-tag>
+      <data-tag id="Cash" label="Cash">-</data-tag>
+      <data-tag id="P/L" label="P/L">-</data-tag>
+      <data-tag id="Average Pos" label="Average Pos">-</data-tag>
+      <data-tag id="Average Buy" label="Average Buy">-</data-tag>
+      <data-tag id="Average Sell" label="Average Sell">-</data-tag>
+      <data-tag id="Market VWAP" label="Market VWAP">-</data-tag>
+      <data-tag id="Last Price" label="Last Price">-</data-tag>
+      <data-tag id="Market Vol." label="Market Vol.">-</data-tag>
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="flex p-4 space-x-4">
     <!-- Orderbook -->
-    <div class="bg-gray- p-4 rounded w-1/3" style="background-color: rgb(24, 24, 24);">
+    <!-- <div class="bg-gray- p-4 rounded w-1/3" style="background-color: rgb(24, 24, 24);">
       <div class="flex justify-between mb-2">
         <button class="bg-green-600 px-4 py-1 rounded">BUY</button>
         <button class="bg-red-600 px-4 py-1 rounded">SELL</button>
@@ -84,45 +85,62 @@
         <div>Asks</div>
         <div>Limit Ask</div>
       </div>
-      <div class="overflow-y-auto max-h-80 space-y-1 mt-2 pr-1">
-        <!-- Example Row -->
+      <div id="orderbook" class="overflow-y-auto max-h-80 space-y-1 mt-2 pr-1">
         <div class="grid grid-cols-5 text-center text-sm h-10">
-            <div class="relative bg-gray-700">
-              <input class="w-full h-full bg-transparent text-white pl-6" />
-              <button class="absolute left-1 top-1 text-red-400">×</button>
-            </div>
-            <div class="bg-green-700 flex items-center justify-center font-bold">137</div>
-            <div class="bg-gray-700 flex items-center justify-center font-bold">31.05</div>
-            <div class="bg-red-700 flex items-center justify-center font-bold">137</div>
-            <div class="relative bg-gray-700">
-              <input class="w-full h-full bg-transparent text-white pl-6" />
-              <button class="absolute left-1 top-1 text-red-400">×</button>
-            </div>
+          <div class="relative bg-gray-800 border-r border-gray-700">
+              <button class="absolute left-1 top-1 text-red-500">×</button>
+              <input value="" class="w-full h-full bg-transparent text-white text-left pl-6" />
           </div>
-          <!-- Empty Row -->
-          <div class="grid grid-cols-5 text-center text-sm h-10">
-            <div class="relative bg-gray-700">
-              <input value="10" class="w-full h-full bg-transparent text-white pl-6" />
-              <button class="absolute left-1 top-1 text-red-400">×</button>
-            </div>
-            <div class="bg-green-900 bg-opacity-30 flex items-center justify-center"></div>
-            <div class="bg-gray-700 flex items-center justify-center">30.90</div>
-            <div class="bg-red-900 bg-opacity-30 flex items-center justify-center"></div>
-            <div class="relative bg-gray-700">
-              <input class="w-full h-full bg-transparent text-white pl-6" />
-              <button class="absolute left-1 top-1 text-red-400">×</button>
-            </div>
+          <div id="bids" class="bg-green-800 border-r border-gray-700 flex items-center justify-center font-bold text-white">50</div>
+          <div id="strike" class="bg-gray-900 flex items-center justify-center font-bold text-white">22.90</div>
+          <div id="asks" class="bg-red-800 border-l border-gray-700 flex items-center justify-center font-bold text-white">70</div>
+          <div class="relative bg-gray-800 border-l border-gray-700">
+              <input value="" class="w-full h-full bg-transparent text-white text-right pr-6" />
+              <button class="absolute right-1 top-1 text-gray-500">×</button>
           </div>
-          <orderbook-input>30.85</orderbook-input>
+        </div>
+      </div>
+    </div> -->
+    <div class="bg-gray-900 p-4 rounded w-1/3 max-h-[500px]">
+      <div class="flex justify-between mb-2">
+        <button class="bg-green-600 px-6 py-3 rounded-lg text-white font-semibold hover:bg-green-500 transition duration-200">BUY</button>
+        <button class="bg-red-600 px-6 py-3 rounded-lg text-white font-semibold hover:bg-red-500 transition duration-200">SELL</button>
+        <button class="bg-blue-600 px-6 py-3 rounded-lg text-white font-semibold hover:bg-blue-500 transition duration-200">Center</button>
+      </div>
+      <div class="grid grid-cols-5 text-center text-sm font-semibold pb-2 border-b border-gray-600">
+        <div>Limit Bid</div>
+        <div>Bids</div>
+        <div>Price</div>
+        <div>Asks</div>
+        <div>Limit Ask</div>
+      </div>
+      <div id="orderbook" class="overflow-y-auto max-h-[400px] mt-2 pr-1">
+        <!-- <div class="grid grid-cols-5">
+          <div class="flex items-center">
+            <button class="w-1/4 bg-gray-700 text-white border-2 border-gray-600 rounded-lg text-xl">×</button>
+            <input value="100" class="w-3/4 h-3/4 bg-gray-700 text-white border-2 border-gray-600 rounded-lg px-4 text-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div class="bg-green-700 flex items-center justify-center font-bold h-12">Bids</div>
+          <div class="bg-gray-700 flex items-center justify-center font-bold h-12">Price</div>
+          <div class="bg-red-700 flex items-center justify-center font-bold h-12">Asks</div>
+          <div class="flex items-center">
+            <input value="200" class="h-3/4 w-3/4 bg-gray-700 text-white border-2 border-gray-600 rounded-lg px-4 text-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <button class="w-1/4 bg-gray-700 text-white border-2 border-gray-600 rounded-lg text-xl">×</button>
+          </div>
+        </div> -->
       </div>
     </div>
+    
+    
+    
+    
 
     <!-- Chart and Activity -->
     <div class="flex-1">
       <!-- Chart -->
       <div class="bg-gray-900 p-4 rounded mb-4">
         <div class="mb-2 flex justify-between">
-          <label class="block text-sm font-semibold">DEMO Stock Price</label>
+          <lid="" abel class="block text-sm font-semibold">DEMO Stock Price</id="" label>
           <select class="bg-gray-700 rounded px-2 py-1">
             <option value="candlestick">Candlestick</option>
           </select>
